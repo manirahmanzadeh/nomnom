@@ -11,21 +11,21 @@ class MostPopularSection extends StatefulWidget {
 
 class _MostPopularSectionState extends State<MostPopularSection> {
   List<FoodModel> foods = [
-    const FoodModel(
+    FoodModel(
       plateImageUrl: 'assets/foods/1.png',
       title: 'Garlic Aioli Chicken Wings + Glazed Yams',
       description: 'Savor the perfect blend of savory and sweet with Garlic Aioli Chicken Wings and Glazed Yams',
       price: 12.99,
       rate: 4.5,
     ),
-    const FoodModel(
+    FoodModel(
       plateImageUrl: 'assets/foods/1.png',
       title: 'Garlic Aioli Chicken Wings + Glazed Yams',
       description: 'Savor the perfect blend of savory and sweet with Garlic Aioli Chicken Wings and Glazed Yams',
       price: 12.99,
       rate: 4.5,
     ),
-    const FoodModel(
+    FoodModel(
       plateImageUrl: 'assets/foods/1.png',
       title: 'Garlic Aioli Chicken Wings + Glazed Yams',
       description: 'Savor the perfect blend of savory and sweet with Garlic Aioli Chicken Wings and Glazed Yams',
@@ -34,12 +34,14 @@ class _MostPopularSectionState extends State<MostPopularSection> {
     ),
   ];
 
-  late final PageController controller;
+  PageController? controller;
+
+  int currentPage = 0;
 
   @override
   void initState() {
     controller = PageController(
-      initialPage: foods.length ~/ 2,
+      initialPage: 0,
       viewportFraction: 0.6,
     );
     super.initState();
@@ -47,7 +49,7 @@ class _MostPopularSectionState extends State<MostPopularSection> {
 
   @override
   void dispose() {
-    controller.dispose();
+    controller?.dispose();
     super.dispose();
   }
 
@@ -56,14 +58,15 @@ class _MostPopularSectionState extends State<MostPopularSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(
+        const Padding(
+          padding: EdgeInsets.symmetric(
             horizontal: 32,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'Most',
                 style: TextStyle(
                   color: Color(0xFF4F4D4E),
@@ -71,7 +74,7 @@ class _MostPopularSectionState extends State<MostPopularSection> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              const Text(
+              Text(
                 'Popular Food',
                 style: TextStyle(
                   color: Color(0xFF4F4D4E),
@@ -98,13 +101,22 @@ class _MostPopularSectionState extends State<MostPopularSection> {
       child: PageView(
         controller: controller,
         scrollDirection: Axis.horizontal,
-        children: foods
-            .map(
-              (food) => FoodItem(
-                food: food,
-              ),
-            )
-            .toList(),
+        onPageChanged: (newPage) {
+          setState(() {
+            currentPage = newPage;
+          });
+        },
+        children: foods.map((food) {
+          bool isSelected;
+          isSelected = foods.indexOf(food) == currentPage;
+          return Transform.translate(
+            offset: Offset(-((MediaQuery.sizeOf(context).width / 2 - 50) / 2 - 16), 0),
+            child: FoodItem(
+              food: food,
+              isSelected: isSelected,
+            ),
+          );
+        }).toList(),
       ),
     );
   }
