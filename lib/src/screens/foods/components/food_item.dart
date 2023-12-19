@@ -17,7 +17,7 @@ class FoodItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: Alignment.topCenter,
+      alignment: Alignment.bottomCenter,
       children: [
         Container(
           width: MediaQuery.sizeOf(context).width / 2.1,
@@ -32,6 +32,7 @@ class FoodItem extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(16),
           width: MediaQuery.sizeOf(context).width / 2.1,
+          height: double.maxFinite,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
