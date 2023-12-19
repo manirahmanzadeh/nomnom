@@ -36,7 +36,7 @@ class _MostPopularSectionState extends State<MostPopularSection> {
 
   PageController? controller;
 
-  int currentPage = 0;
+  double currentPage = 0;
 
   @override
   void initState() {
@@ -44,6 +44,11 @@ class _MostPopularSectionState extends State<MostPopularSection> {
       initialPage: 0,
       viewportFraction: 0.55,
     );
+    controller!.addListener(() {
+      setState(() {
+        currentPage = controller!.page!;
+      });
+    });
     super.initState();
   }
 
@@ -101,19 +106,20 @@ class _MostPopularSectionState extends State<MostPopularSection> {
       child: PageView(
         controller: controller,
         scrollDirection: Axis.horizontal,
-        onPageChanged: (newPage) {
-          setState(() {
-            currentPage = newPage;
-          });
-        },
         children: foods.map((food) {
-          bool isSelected;
-          isSelected = foods.indexOf(food) == currentPage;
+          double distance = 0;
+          distance = (foods.indexOf(food) - currentPage).abs();
+          double centerness = 0;
+
+          if (distance <= 1) {
+            centerness = (1 - distance).abs();
+          }
+
           return Transform.translate(
             offset: Offset(-((MediaQuery.sizeOf(context).width / 2 - 50) / 2 - 16), 0),
             child: FoodItem(
               food: food,
-              isSelected: isSelected,
+              centerness: centerness,
               color: foods.indexOf(food).isEven ? const Color(0xFF4A7E83) : const Color(0xFFFF8E20),
             ),
           );

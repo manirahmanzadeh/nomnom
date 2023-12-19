@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:nomnom/src/models/food_model.dart';
@@ -6,12 +8,12 @@ class FoodItem extends StatelessWidget {
   const FoodItem({
     super.key,
     required this.food,
-    required this.isSelected,
     required this.color,
+    required this.centerness,
   });
 
   final FoodModel food;
-  final bool isSelected;
+  final double centerness;
   final Color color;
 
   @override
@@ -39,14 +41,10 @@ class FoodItem extends StatelessWidget {
             children: [
               Align(
                 alignment: Alignment.center,
-                child: AnimatedRotation(
-                  duration: const Duration(milliseconds: 350),
-                  curve: Curves.ease,
-                  turns: isSelected ? 0.1 : 0,
-                  child: AnimatedScale(
-                    scale: isSelected ? 1 : 0.7,
-                    duration: const Duration(milliseconds: 350),
-                    curve: Curves.ease,
+                child: Transform.rotate(
+                  angle: centerness * pi / 3,
+                  child: Transform.scale(
+                    scale: 0.7 + (centerness * 0.3),
                     child: Image.asset(
                       food.plateImageUrl,
                       width: MediaQuery.sizeOf(context).width / 2 - 50,
@@ -89,28 +87,16 @@ class FoodItem extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              AnimatedSize(
-                duration: const Duration(milliseconds: 350),
-                curve: Curves.ease,
-                child: SizedBox(
-                  height: isSelected ? null : 0,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        food.description,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                    ],
+              SizedBox(
+                height: centerness * 60,
+                child: Text(
+                  food.description,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
               ),
