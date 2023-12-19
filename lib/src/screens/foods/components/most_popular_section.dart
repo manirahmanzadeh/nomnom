@@ -11,25 +11,25 @@ class MostPopularSection extends StatefulWidget {
 
 class _MostPopularSectionState extends State<MostPopularSection> {
   List<FoodModel> foods = [
-    FoodModel(
+    const FoodModel(
       plateImageUrl: 'assets/foods/1.png',
       title: 'Garlic Aioli Chicken Wings + Glazed Yams',
       description: 'Savor the perfect blend of savory and sweet with Garlic Aioli Chicken Wings and Glazed Yams',
       price: 12.99,
       rate: 4.5,
     ),
-    FoodModel(
+    const FoodModel(
       plateImageUrl: 'assets/foods/1.png',
       title: 'Garlic Aioli Chicken Wings + Glazed Yams',
       description: 'Savor the perfect blend of savory and sweet with Garlic Aioli Chicken Wings and Glazed Yams',
-      price: 12.99,
+      price: 13.99,
       rate: 4.5,
     ),
-    FoodModel(
+    const FoodModel(
       plateImageUrl: 'assets/foods/1.png',
       title: 'Garlic Aioli Chicken Wings + Glazed Yams',
       description: 'Savor the perfect blend of savory and sweet with Garlic Aioli Chicken Wings and Glazed Yams',
-      price: 12.99,
+      price: 10.99,
       rate: 4.5,
     ),
   ];
@@ -42,7 +42,7 @@ class _MostPopularSectionState extends State<MostPopularSection> {
   void initState() {
     controller = PageController(
       initialPage: 0,
-      viewportFraction: 0.6,
+      viewportFraction: 0.55,
     );
     super.initState();
   }
@@ -114,6 +114,7 @@ class _MostPopularSectionState extends State<MostPopularSection> {
             child: FoodItem(
               food: food,
               isSelected: isSelected,
+              color: foods.indexOf(food).isEven ? const Color(0xFF4A7E83) : const Color(0xFFFF8E20),
             ),
           );
         }).toList(),

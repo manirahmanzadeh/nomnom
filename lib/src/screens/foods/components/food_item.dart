@@ -1,50 +1,18 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:nomnom/src/models/food_model.dart';
 
-class FoodItem extends StatefulWidget {
+class FoodItem extends StatelessWidget {
   const FoodItem({
     super.key,
     required this.food,
     required this.isSelected,
+    required this.color,
   });
 
   final FoodModel food;
   final bool isSelected;
-
-  @override
-  State<FoodItem> createState() => _FoodItemState();
-}
-
-class _FoodItemState extends State<FoodItem> with SingleTickerProviderStateMixin {
-  late final AnimationController _rotationController;
-
-  @override
-  void initState() {
-    _rotationController = AnimationController(vsync: this, duration: const Duration(seconds: 20));
-    _rotationController.addListener(() {
-      setState(() {});
-    });
-    _rotationController.addStatusListener((status) {
-      switch (status) {
-        case AnimationStatus.dismissed:
-        case AnimationStatus.forward:
-        case AnimationStatus.reverse:
-        case AnimationStatus.completed:
-          _rotationController.repeat();
-      }
-    });
-    _rotationController.forward();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _rotationController.dispose();
-    super.dispose();
-  }
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -52,30 +20,37 @@ class _FoodItemState extends State<FoodItem> with SingleTickerProviderStateMixin
       alignment: Alignment.topCenter,
       children: [
         Container(
-          width: MediaQuery.sizeOf(context).width / 2,
+          width: MediaQuery.sizeOf(context).width / 2.1,
           height: double.maxFinite,
           margin: EdgeInsets.only(top: (MediaQuery.sizeOf(context).width / 2) / 2),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: const Color(0xFF4A7E83),
+            color: color,
             borderRadius: BorderRadius.circular(32),
           ),
         ),
         Container(
           padding: const EdgeInsets.all(16),
-          width: MediaQuery.sizeOf(context).width / 2,
+          width: MediaQuery.sizeOf(context).width / 2.1,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Align(
                 alignment: Alignment.center,
-                child: Transform.rotate(
-                  angle: _rotationController.value * 2 * pi,
-                  child: Image.asset(
-                    widget.food.plateImageUrl,
-                    width: widget.isSelected ? MediaQuery.sizeOf(context).width / 2 - 50 : MediaQuery.sizeOf(context).width / 2 - 70,
-                    height: widget.isSelected ? MediaQuery.sizeOf(context).width / 2 - 50 : MediaQuery.sizeOf(context).width / 2 - 70,
+                child: AnimatedRotation(
+                  duration: const Duration(milliseconds: 350),
+                  curve: Curves.ease,
+                  turns: isSelected ? 0.1 : 0,
+                  child: AnimatedScale(
+                    scale: isSelected ? 1 : 0.7,
+                    duration: const Duration(milliseconds: 350),
+                    curve: Curves.ease,
+                    child: Image.asset(
+                      food.plateImageUrl,
+                      width: MediaQuery.sizeOf(context).width / 2 - 50,
+                      height: MediaQuery.sizeOf(context).width / 2 - 50,
+                    ),
                   ),
                 ),
               ),
@@ -83,7 +58,7 @@ class _FoodItemState extends State<FoodItem> with SingleTickerProviderStateMixin
                 height: 4,
               ),
               RatingBar.builder(
-                initialRating: widget.food.rate,
+                initialRating: food.rate,
                 minRating: 1,
                 direction: Axis.horizontal,
                 allowHalfRating: true,
@@ -101,7 +76,7 @@ class _FoodItemState extends State<FoodItem> with SingleTickerProviderStateMixin
                 height: 8,
               ),
               Text(
-                widget.food.title,
+                food.title,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -113,27 +88,33 @@ class _FoodItemState extends State<FoodItem> with SingleTickerProviderStateMixin
               const SizedBox(
                 height: 16,
               ),
-              if (widget.isSelected)
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      widget.food.description,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 10,
-                        fontWeight: FontWeight.w400,
+              AnimatedSize(
+                duration: const Duration(milliseconds: 350),
+                curve: Curves.ease,
+                child: SizedBox(
+                  height: isSelected ? null : 0,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        food.description,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 4,
+                      ),
+                    ],
+                  ),
                 ),
+              ),
               Text(
-                '\$${widget.food.price}',
+                '\$${food.price}',
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
