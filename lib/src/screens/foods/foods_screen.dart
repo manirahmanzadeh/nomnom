@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:nomnom/src/screens/foods/components/most_popular_section.dart';
 import 'package:nomnom/src/screens/foods/components/restaurants_section.dart';
@@ -21,16 +22,18 @@ class _FoodsScreenState extends State<FoodsScreen> {
           SizedBox(
             height: MediaQuery.of(context).padding.top + 16,
           ),
-          const AppSearchBar(),
+          FadeInLeft(child: const AppSearchBar()),
           const SizedBox(
             height: 16,
           ),
-          const RestaurantsSection(),
+          FadeInRight(child: const RestaurantsSection()),
           const SizedBox(
             height: 16,
           ),
-          const Expanded(
-            child: MostPopularSection(),
+          Expanded(
+            child: FadeInUp(
+              child: const MostPopularSection(),
+            ),
           ),
         ],
       ),
