@@ -118,8 +118,6 @@ class _FoodScreenState extends State<FoodScreen> with SingleTickerProviderStateM
                     children: [
                       Text(
                         widget.food.title,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -233,6 +231,7 @@ class _FoodScreenState extends State<FoodScreen> with SingleTickerProviderStateM
                           fontWeight: FontWeight.w500,
                         ),
                       ),
+                      const SizedBox(height: 16,),
                       Text(
                         widget.food.description,
                         style: const TextStyle(
