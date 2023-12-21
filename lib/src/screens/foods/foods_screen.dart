@@ -22,11 +22,15 @@ class _FoodsScreenState extends State<FoodsScreen> {
           SizedBox(
             height: MediaQuery.of(context).padding.top + 16,
           ),
-          FadeInLeft(child: const AppSearchBar()),
+          FadeInLeft(
+            child: const AppSearchBar(),
+          ),
           const SizedBox(
             height: 16,
           ),
-          FadeInRight(child: const RestaurantsSection()),
+          FadeInRight(
+            child: const RestaurantsSection(),
+          ),
           const SizedBox(
             height: 16,
           ),

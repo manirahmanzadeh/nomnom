@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:nomnom/src/models/category_model.dart';
+import 'package:nomnom/mock_data.dart';
 
 class RestaurantsSection extends StatefulWidget {
   const RestaurantsSection({super.key});
@@ -11,25 +11,6 @@ class RestaurantsSection extends StatefulWidget {
 
 class _RestaurantsSectionState extends State<RestaurantsSection> {
   int _index = 0;
-
-  final List<FoodCategory> categories = [
-    const FoodCategory(
-      icon: 'assets/icons/pizza.svg',
-      title: 'Pizza',
-    ),
-    const FoodCategory(
-      icon: 'assets/icons/hamburger.svg',
-      title: 'Hamburger',
-    ),
-    const FoodCategory(
-      icon: 'assets/icons/ice-cream.svg',
-      title: 'Ice Cream',
-    ),
-    const FoodCategory(
-      icon: 'assets/icons/meat.svg',
-      title: 'Meat',
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +75,11 @@ class _RestaurantsSectionState extends State<RestaurantsSection> {
                                       ),
                                       Text(
                                         e.title,
-                                        style: const TextStyle(fontSize: 10, color: Colors.white, fontWeight: FontWeight.w500),
+                                        style: const TextStyle(
+                                          fontSize: 10,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ],
                                   ),
