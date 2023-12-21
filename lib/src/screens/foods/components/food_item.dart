@@ -22,16 +22,6 @@ class FoodItem extends StatefulWidget {
 }
 
 class _FoodItemState extends State<FoodItem> {
-  void goToFoodScreen() {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => FoodScreen(
-                  food: widget.food,
-                  color: widget.color,
-                )));
-  }
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -154,7 +144,7 @@ class _FoodItemState extends State<FoodItem> {
                           width: 4,
                         ),
                         Text(
-                          'Add to bug',
+                          'Add to bag',
                           style: TextStyle(
                             color: Color(0xFF4A7E83),
                             fontSize: 10,
@@ -169,6 +159,18 @@ class _FoodItemState extends State<FoodItem> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void goToFoodScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => FoodScreen(
+          food: widget.food,
+          color: widget.color,
+        ),
       ),
     );
   }
